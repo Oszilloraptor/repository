@@ -1,0 +1,35 @@
+composer.json:
+  - ./composer.json
+
+.github:
+  - .github/*
+  - .github/**/*
+
+.gitignore:
+  - .gitignore
+
+config (tooling):
+  - ./*.dist
+  - ./*.dist.php
+  - .github/*.yml
+
+tests (unit):
+  - tests/*
+
+code change:
+  - src/*
+  - src/**/*
+
+changelog:
+  - ./CHANGELOG.md
+
+documentation:
+  - docs/
+  - README.md
+
+php:
+  - ./**/*.php
+
+shell:
+  - ./*.sh
+  - ./**/*.sh
