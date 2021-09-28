@@ -4,52 +4,52 @@ declare(strict_types=1);
 
 namespace Rikta\Repository;
 
+use Rikta\Repository\Cache\Cache;
 use RuntimeException;
 
 /**
- * @template UnserializedItem
- * @template-implements RepositoryInterface<string, UnserializedItem>
+ * @template Item
+ * @template-implements RepositoryInterface<string, Item>
  */
 class FileRepository implements RepositoryInterface
 {
     /**
-     * @param string        $dir            directory that stores the data for this query
-     * @param true|string[] $allowedClasses allowed classes for deserializing
+     * @param string $dir    directory that stores the data for this query
+     * @param bool   $cached should the files be cached?
      */
-    public function __construct(string $dir, $allowedClasses = true)
+    public function __construct(string $dir, bool $cached = true)
     {
         if (!is_dir($dir) && !mkdir($dir, 0755, true) && !is_dir($dir)) {
             throw new RuntimeException(sprintf('Directory "%s" was not created', $dir));
         }
-
+        $this->cache = new Cache($cached);
         $this->dir = $dir;
-        $this->allowedClasses = $allowedClasses;
     }
 
     /** Returns the filename for a specific $key. */
     protected function getFilenameForKey(string $key): string
     {
-        return $this->dir.'/'.$key;
+        return $this->dir.\DIRECTORY_SEPARATOR.$key;
     }
 
     /**
      * Unserializes an Item.
      *
-     * @param UnserializedItem $item
+     * @param Item $item
      */
     protected function serialize($item): string
     {
-        return serialize($item);
+        return $item;
     }
 
     /**
      * Serializes an Item.
      *
-     * @return UnserializedItem
+     * @return Item
      */
     protected function unserialize(string $serialized)
     {
-        return unserialize($serialized, ['allowedClasses' => $this->allowedClasses]);
+        return $serialized;
     }
 
     /** {@inheritDoc} */
@@ -63,6 +63,7 @@ class FileRepository implements RepositoryInterface
     {
         foreach ($keys as $key) {
             unlink($this->dir.$key);
+            $this->cache->delete($key);
         }
     }
 
@@ -86,25 +87,27 @@ class FileRepository implements RepositoryInterface
     /** {@inheritDoc} */
     public function getItem($key)
     {
-        $serialized = file_get_contents($this->dir.$key);
-
-        return $this->unserialize($serialized);
+        return $this->cache->getOrCreate($key, fn () => $this->unserialize(file_get_contents($this->dir.$key)));
     }
 
     /** {@inheritDoc} */
     public function hasItem($key): bool
     {
-        return file_exists($this->getFilenameForKey($key));
+        return $this->cache->has($key) || file_exists($this->getFilenameForKey($key));
     }
 
     /** {@inheritDoc} */
     public function setItem($key, $item): void
     {
-        file_put_contents($this->getFilenameForKey($key), $this->serialize($item));
+        file_put_contents($this->getFilenameForKey($key), $this->cache->getOrCreate($key, fn () => $this->serialize($item)));
     }
 
-    /** @var true|string[] allowed classes for deserializing */
-    private $allowedClasses;
+    public static function getTempDir(?string $identifier = null): string
+    {
+        return sys_get_temp_dir().\DIRECTORY_SEPARATOR.($identifier ?? uniqid('', true)).\DIRECTORY_SEPARATOR;
+    }
+
+    private Cache $cache;
     /** directory that stores the data for this query  */
     private string $dir;
 }
