@@ -10,22 +10,24 @@ composer.json:
 
 config (tooling):
   - ./*.dist
-  - ./*.dist.php
+  - ./*.dist.*
   - .github/*.yml
 
 tests (unit):
   - tests/*
 
-code change:
-  - src/*
-  - src/**/*
+tests (example):
+  - examples/*
 
-changelog:
+code-change:
+  - src/*
+
+release:
   - ./CHANGELOG.md
 
 documentation:
-  - docs/
-  - README.md
+  - ./*.md
+  - ./**/*.md
 
 php:
   - ./**/*.php

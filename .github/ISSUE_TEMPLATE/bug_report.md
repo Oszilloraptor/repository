@@ -22,12 +22,6 @@ Please include code snippets and example inputs where needed.
 
 A clear and concise description of what you expected to happen.
 
-
-**Environment:**
-
- - PHP: [e.g. 7.4]
- - composer.json
-
 **Additional context**
 
 Add any other context about the problem here.

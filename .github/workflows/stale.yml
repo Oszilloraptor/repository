@@ -13,11 +13,11 @@ jobs:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         days-before-stale: 60
         days-before-close: 15
-        stale-issue-message: 'This contribution was marked as stale because it receiverd no activity in the last 2 months. It will be closed in 14 days if it receives no further activity.'
-        stale-pr-message: 'This contribution was marked as stale because it receiverd no activity in the last 2 months. It will be closed in 14 days if it receives no further activity.'
+        stale-issue-message: 'This contribution was marked as stale because it received no activity in the last 2 months. It will be closed in 14 days if it receives no further activity.'
+        stale-pr-message: 'This contribution was marked as stale because it received no activity in the last 2 months. It will be closed in 14 days if it receives no further activity.'
         close-issue-message: 'This contribution has received no activity in the last 75 days and was closed automatically'
         close-pr-message: 'This contribution has received no activity in the last 75 days and was closed automatically'	
-        close-issue-label:	'closed due to inactiviy'
+        close-issue-label:	'closed due to inactivity'
         stale-pr-label: 'stale'
         close-pr-label: 'closed due to inactivity'
         exempt-issue-labels: 'help wanted,good first issue,bug'

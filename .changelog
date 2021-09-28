@@ -1,0 +1,5 @@
+<?php
+
+return [
+    'types' => ['feat', 'fix', 'perf', 'docs', 'refactor'],
+];
