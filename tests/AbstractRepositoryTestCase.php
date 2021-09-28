@@ -18,11 +18,13 @@ abstract class AbstractRepositoryTestCase extends TestCase
 
     /**
      * @param RepositoryInterface<string, string> $repository
-     * @depends testInitialises
+     * @depends initialises
      *
      * @return RepositoryInterface<string, string>
+     *
+     * @test
      */
-    final public function testCreate(RepositoryInterface $repository): RepositoryInterface
+    final public function create(RepositoryInterface $repository): RepositoryInterface
     {
         $repository->setItem('a', 'A');
         $repository->setItem('b', 'B');
@@ -34,11 +36,13 @@ abstract class AbstractRepositoryTestCase extends TestCase
 
     /**
      * @param RepositoryInterface<string, string> $repository
-     * @depends testDeleteItem
+     * @depends deleteItem
      *
      * @return RepositoryInterface<string, string>
+     *
+     * @test
      */
-    final public function testDeleteAllItems(RepositoryInterface $repository): RepositoryInterface
+    final public function deleteAllItems(RepositoryInterface $repository): RepositoryInterface
     {
         $repository->deleteAllItems();
         static::assertEmpty($repository->getAllItems());
@@ -48,11 +52,13 @@ abstract class AbstractRepositoryTestCase extends TestCase
 
     /**
      * @param RepositoryInterface<string, string> $repository
-     * @depends testHasItem
+     * @depends hasItem
      *
      * @return RepositoryInterface<string, string>
+     *
+     * @test
      */
-    final public function testDeleteItem(RepositoryInterface $repository): RepositoryInterface
+    final public function deleteItem(RepositoryInterface $repository): RepositoryInterface
     {
         $repository->deleteItem('b');
         static::assertSame(['a' => 'A', 'c' => 'C'], $repository->getAllItems());
@@ -62,11 +68,13 @@ abstract class AbstractRepositoryTestCase extends TestCase
 
     /**
      * @param RepositoryInterface<string, string> $repository
-     * @depends testCreate
+     * @depends create
      *
      * @return RepositoryInterface<string, string>
+     *
+     * @test
      */
-    final public function testGetAllItems(RepositoryInterface $repository): RepositoryInterface
+    final public function getAllItems(RepositoryInterface $repository): RepositoryInterface
     {
         static::assertSame(['a' => 'A', 'b' => 'B', 'c' => 'C'], $repository->getAllItems());
 
@@ -75,11 +83,13 @@ abstract class AbstractRepositoryTestCase extends TestCase
 
     /**
      * @param RepositoryInterface<string, string> $repository
-     * @depends testGetAllItems
+     * @depends getAllItems
      *
      * @return RepositoryInterface<string, string>
+     *
+     * @test
      */
-    final public function testGetItem(RepositoryInterface $repository): RepositoryInterface
+    final public function getItem(RepositoryInterface $repository): RepositoryInterface
     {
         static::assertSame('A', $repository->getItem('a'));
         static::assertSame('B', $repository->getItem('b'));
@@ -90,11 +100,13 @@ abstract class AbstractRepositoryTestCase extends TestCase
 
     /**
      * @param RepositoryInterface<string, string> $repository
-     * @depends testGetItem
+     * @depends getItem
      *
      * @return RepositoryInterface<string, string>
+     *
+     * @test
      */
-    final public function testHasItem(RepositoryInterface $repository): RepositoryInterface
+    final public function hasItem(RepositoryInterface $repository): RepositoryInterface
     {
         static::assertTrue($repository->hasItem('a'));
         static::assertFalse($repository->hasItem('z'));
@@ -102,7 +114,8 @@ abstract class AbstractRepositoryTestCase extends TestCase
         return $repository;
     }
 
-    final public function testInitialises(): RepositoryInterface
+    /** @test */
+    final public function initialises(): RepositoryInterface
     {
         $repository = $this->getRepositoryInterface();
         $this->addToAssertionCount(1); // constructor works

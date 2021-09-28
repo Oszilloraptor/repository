@@ -10,10 +10,10 @@ namespace Rikta\Repository\Tests;
  */
 abstract class AbstractFileRepositoryFunctionalTestCase extends AbstractRepositoryTestCase
 {
+    protected string $dir;
+
     protected function setUp(): void
     {
         $this->dir = __DIR__.'/../tmp/'.uniqid('', true).'/';
     }
-
-    protected string $dir;
 }

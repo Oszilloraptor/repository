@@ -10,6 +10,8 @@ use Rikta\Repository\RepositoryInterface;
 /**
  * @internal
  * @coversNothing
+ *
+ * @small
  */
 final class ArrayRepositoryFunctionalTest extends AbstractRepositoryTestCase
 {

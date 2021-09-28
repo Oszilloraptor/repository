@@ -10,6 +10,9 @@ namespace Rikta\Repository;
  */
 class ArrayRepository implements RepositoryInterface
 {
+    /** @var array<string, Item> */
+    private array $data;
+
     public function __construct(array $data = [])
     {
         $this->data = $data;
@@ -57,7 +60,4 @@ class ArrayRepository implements RepositoryInterface
     {
         $this->data[$key] = $item;
     }
-
-    /** @var array<string, Item> */
-    private array $data;
 }

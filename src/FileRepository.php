@@ -13,6 +13,10 @@ use RuntimeException;
  */
 class FileRepository implements RepositoryInterface
 {
+    private Cache $cache;
+    /** directory that stores the data for this query  */
+    private string $dir;
+
     /**
      * @param string $dir    directory that stores the data for this query
      * @param bool   $cached should the files be cached?
@@ -24,32 +28,6 @@ class FileRepository implements RepositoryInterface
         }
         $this->cache = new Cache($cached);
         $this->dir = $dir;
-    }
-
-    /** Returns the filename for a specific $key. */
-    protected function getFilenameForKey(string $key): string
-    {
-        return $this->dir.\DIRECTORY_SEPARATOR.$key;
-    }
-
-    /**
-     * Unserializes an Item.
-     *
-     * @param Item $item
-     */
-    protected function serialize($item): string
-    {
-        return $item;
-    }
-
-    /**
-     * Serializes an Item.
-     *
-     * @return Item
-     */
-    protected function unserialize(string $serialized)
-    {
-        return $serialized;
     }
 
     /** {@inheritDoc} */
@@ -102,12 +80,34 @@ class FileRepository implements RepositoryInterface
         file_put_contents($this->getFilenameForKey($key), $this->cache->getOrCreate($key, fn () => $this->serialize($item)));
     }
 
+    /** Returns the filename for a specific $key. */
+    protected function getFilenameForKey(string $key): string
+    {
+        return $this->dir.\DIRECTORY_SEPARATOR.$key;
+    }
+
+    /**
+     * Unserializes an Item.
+     *
+     * @param Item $item
+     */
+    protected function serialize($item): string
+    {
+        return $item;
+    }
+
+    /**
+     * Serializes an Item.
+     *
+     * @return Item
+     */
+    protected function unserialize(string $serialized)
+    {
+        return $serialized;
+    }
+
     public static function getTempDir(?string $identifier = null): string
     {
         return sys_get_temp_dir().\DIRECTORY_SEPARATOR.($identifier ?? uniqid('', true)).\DIRECTORY_SEPARATOR;
     }
-
-    private Cache $cache;
-    /** directory that stores the data for this query  */
-    private string $dir;
 }

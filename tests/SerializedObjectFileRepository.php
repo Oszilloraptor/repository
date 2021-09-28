@@ -10,6 +10,8 @@ use Rikta\Repository\SerializedObjectsFileRepository;
 /**
  * @internal
  * @coversNothing
+ *
+ * @small
  */
 final class SerializedObjectFileRepository extends AbstractFileRepositoryFunctionalTestCase
 {

@@ -14,6 +14,9 @@ namespace Rikta\Repository\Cache;
  */
 final class Cache
 {
+    private array $data = [];
+    private bool $enabled;
+
     public function __construct(bool $enabled = true)
     {
         $this->enabled = $enabled;
@@ -48,7 +51,4 @@ final class Cache
     {
         return $this->data[$key] = $value;
     }
-
-    private array $data = [];
-    private bool $enabled;
 }

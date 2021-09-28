@@ -10,6 +10,9 @@ namespace Rikta\Repository;
  */
 class SerializedObjectsFileRepository extends FileRepository
 {
+    /** @var true|string[] allowed classes for deserializing */
+    private $allowedClasses;
+
     /**
      * @param string        $dir            directory that stores the data for this query
      * @param bool          $cached         should the files be cached?
@@ -40,7 +43,4 @@ class SerializedObjectsFileRepository extends FileRepository
     {
         return unserialize($serialized, ['allowedClasses' => $this->allowedClasses]);
     }
-
-    /** @var true|string[] allowed classes for deserializing */
-    private $allowedClasses;
 }
