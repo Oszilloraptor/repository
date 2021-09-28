@@ -1,7 +1,7 @@
 {
     "name": "rikta/repository",
     "description": "Very basic implementation of a temporary webhook for integration testing",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "scripts": {
         "release": "conventional-changelog --commit",
         "style": "./vendor/bin/php-cs-fixer fix --diff -v",
